@@ -1,26 +1,15 @@
-<div class='heading'>
-  <h2>
-    <a href='#!/{{id}}' class="toggleEndpointList" data-id="{{id}}">{{name}}</a> {{#summary}} : {{/summary}}{{{summary}}}
-  </h2>
-  <ul class='options'>
-    <li>
-      <a href='#!/{{id}}' id='endpointListTogger_{{id}}' class="toggleEndpointList" data-id="{{id}}">Show/Hide</a>
-    </li>
-    <li>
-      <a href='#' class="collapseResource" data-id="{{id}}">
-        List Operations
-      </a>
-    </li>
-    <li>
-      <a href='#' class="expandResource" data-id="{{id}}">
-        Expand Operations
-      </a>
-    </li>
-    {{#url}}<li>
-      <a href='{{url}}'>Raw</a>
-    </li>{{/url}}
-  </ul>
-</div>
-<ul class='endpoints' id='{{id}}_endpoint_list' style='display:none'>
+<div class='panel panel-default'>
 
-</ul>
+    <div class='panel-heading heading pointer-cursor toggleEndpointList' href='#!/{{id}}' data-id="{{id}}">
+        <h2>
+            {{name}} {{#summary}}: {{/summary}}{{{summary}}}
+        </h2>
+    </div>
+
+
+    <div class='panel-body'>
+        <ul class='endpoints' id='{{id}}_endpoint_list' style='display:none'>
+
+        </ul>
+    </div>
+</div>
