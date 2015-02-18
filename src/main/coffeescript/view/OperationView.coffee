@@ -206,7 +206,8 @@ class OperationView extends Backbone.View
         if(val? && jQuery.trim(val).length > 0)
           map[o.name] = val
 
-      opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
+#      opts.responseContentType = $("div select[name=responseContentType]", $(@el)).val()
+      opts.responseContentType = "*/*"  #accept all - by default is set to json
       opts.requestContentType = $("div select[name=parameterContentType]", $(@el)).val()
 
       $(".response_throbber", $(@el)).show()

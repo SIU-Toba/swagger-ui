@@ -5,11 +5,11 @@
 			<input type="file" name='{{name}}'/>
 		{{else}}
 			{{#if default}}
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}'>{{default}}</textarea>
+				<textarea class='body-textarea required' placeholder='(requerido)' name='{{name}}'>{{default}}</textarea>
         <br />
         <div class="parameter-content-type" />
 			{{else}}
-				<textarea class='body-textarea required' placeholder='(required)' name='{{name}}'></textarea>
+				<textarea class='body-textarea required' placeholder='(requerido)' name='{{name}}'></textarea>
 				<br />
 				<div class="parameter-content-type" />
 			{{/if}}
@@ -19,9 +19,9 @@
 			<input class='parameter' class='required' type='file' name='{{name}}'/>
 		{{else}}
 			{{#if default}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value='{{default}}'/>
+				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(requerido)' type='text' value='{{default}}'/>
 			{{else}}
-				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(required)' type='text' value=''/>
+				<input class='parameter required' minlength='1' name='{{name}}' placeholder='(requerido)' type='text' value=''/>
 			{{/if}}
 		{{/if}}
 	{{/if}}

@@ -2,9 +2,9 @@
 @import 'src/main/less/specs.less';
 @import 'src/main/less/auth.less';
 
-.shadowBox (@size: 1px) {
-  -webkit-box-shadow: 0 @size @size rgba(0, 0, 0, 0.15);
-  box-shadow: 0 @size @size rgba(0, 0, 0, 0.15);
+.shadowBox (@size: 1px, @strength: 0.15) {
+  -webkit-box-shadow: 0 @size @size rgba(0, 0, 0, @strength);
+  box-shadow: 0 @size @size rgba(0, 0, 0, @strength);
 }
 
 .swagger-section {
@@ -83,7 +83,8 @@
     .shadowBox(3px);
 
     #logo img {
-      height: 45px;
+      height: 40px;
+      padding: 5px;
     }
     form#api_selector {
       display: block;
@@ -108,7 +109,7 @@
           padding: 6px 8px;
           font-size: 0.9em;
           color: white;
-          background-color: #6BA3ED;
+          background-color: #20334D;
           -moz-border-radius: 4px;
           -webkit-border-radius: 4px;
           -o-border-radius: 4px;

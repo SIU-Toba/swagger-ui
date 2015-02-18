@@ -511,7 +511,7 @@
       font-size: 0.9em;
 
       li.resource {
-        border-bottom: 1px solid #dddddd;
+        margin-bottom: 15px;
 
         &:hover div.heading,
         &.active div.heading {
@@ -579,7 +579,7 @@
             }
           }
           h2 {
-            color: #999999;
+            color: #FFF;
             padding-left: 0;
             display: block;
             clear: none;
@@ -602,10 +602,10 @@
                 clear: both;
                 overflow: hidden;
                 display: block;
-                margin: 0 0 10px;
+                margin: 0;
                 padding: 0;
                 div.heading {
-
+                  padding: 14px;
                   h3 {
                     display: block;
                     clear: none;
@@ -687,7 +687,7 @@
                   -ms-border-bottom-right-radius: 6px;
                   -khtml-border-bottom-right-radius: 6px;
                   border-bottom-right-radius: 6px;
-                  margin: 0 0 20px;
+                  margin: 0;
                   h4 {
                     font-size: 1.1em;
                     margin: 0;
@@ -1023,7 +1023,7 @@
         }
 
         .panel.panel-default {
-          border-color: #ddd;
+//          border-color: #4C6BAB;
         }
         .pointer-cursor {
           cursor: pointer;
@@ -1031,24 +1031,16 @@
         .panel {
           margin-bottom: 2px;
           background-color: #fff;
-          border: 1px solid transparent;
-          border-radius: 4px;
-          .shadowBox(1px);
+          .shadowBox(3px, 0.3f);
 
           .panel-heading {
-            color: #333;
-            background-color: #f5f5f5;
-            border-color: #ddd;
+            background-color: #18396F;
+            border-color: #2C4369;
+            border-radius: 2px;
           }
           .panel-body {
             padding: 0px;
           }
-        }
-        .panel-heading {
-          padding: 4px 15px;
-          border-bottom: 1px solid transparent;
-          border-top-right-radius: 3px;
-          border-top-left-radius: 3px;
         }
       }
     }
