@@ -645,7 +645,7 @@ ContentTypeView = (function(_super) {
 this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return "deprecated";
   },"3":function(depth0,helpers,partials,data) {
-  return "            <h4>Warning: Deprecado</h4>\n";
+  return "            <h4>Cuidado: Deprecado</h4>\n";
   },"5":function(depth0,helpers,partials,data) {
   var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "        <h4>Notas de implementación</h4>\n        <p class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"description","hash":{},"data":data}) : helper));
@@ -670,8 +670,11 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   },"14":function(depth0,helpers,partials,data) {
   return "        <div class='access'>\n          <span class=\"api-ic ic-off\" title=\"click to authenticate\"></span>\n        </div>\n";
   },"16":function(depth0,helpers,partials,data) {
-  return "          <h4>Respuesta</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n";
-  },"18":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "          <h4>Respuesta éxitosa (Status "
+    + escapeExpression(((helper = (helper = helpers.successCode || (depth0 != null ? depth0.successCode : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successCode","hash":{},"data":data}) : helper)))
+    + ")</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n";
+},"18":function(depth0,helpers,partials,data) {
   return "          <h4>Parámetros</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\">Parámetro</th>\n            <th style=\"width: 310px; max-width: 310px\">Valor</th>\n            <th style=\"width: 200px; max-width: 200px\">Descripción</th>\n            <th style=\"width: 100px; max-width: 100px\">Tipo Param</th>\n            <th style=\"width: 220px; max-width: 230px\">Tipo Dato</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n";
   },"20":function(depth0,helpers,partials,data) {
   return "          <div style='margin:0;padding:0;display:inline'></div>\n          <h4>Respuestas</h4>\n          <table class='fullwidth'>\n            <thead>\n            <tr>\n              <th>Estado HTTP</th>\n              <th>Motivo</th>\n              <th>Modelo de Respuesta</th>\n            </tr>\n            </thead>\n            <tbody class=\"operation-status\">\n            \n            </tbody>\n          </table>\n";
@@ -1934,9 +1937,6 @@ ResourceView = (function(_super) {
   ResourceView.prototype.render = function() {
     var counter, id, methods, operation, _i, _len, _ref;
     methods = {};
-    if (this.model.description != null) {
-      this.model.summary = this.model.description;
-    }
     $(this.el).html(Handlebars.templates.resource(this.model));
     _ref = this.model.operationsArray;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

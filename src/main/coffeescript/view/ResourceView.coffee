@@ -7,8 +7,8 @@ class ResourceView extends Backbone.View
   render: ->
     methods = {}
 
-    if @model.description?
-      @model.summary = @model.description
+#    if @model.description?
+#      @model.summary = @model.description
 
     $(@el).html(Handlebars.templates.resource(@model))
 
