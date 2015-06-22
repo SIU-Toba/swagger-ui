@@ -90,6 +90,14 @@ var Docs = {
 
 		switch (fragments.length) {
 			case 1:
+                                // Expand all resources for the group resource and scroll to it
+				var resource = fragments[0].replace(/\s/g, '_');
+                                var group = resource.split('/')
+                                var dom_idg = 'group_resource_' + group[0];
+                                
+				Docs.expandResourceListForGroupResource(group[0]);
+				$("#"+dom_idg).slideto({highlight: false});
+                                
 				// Expand all operations for the resource and scroll to it
 				var dom_id = 'resource_' + fragments[0];
 
@@ -98,21 +106,120 @@ var Docs = {
 				break;
 			case 2:
 				// Refer to the endpoint DOM element, e.g. #words_get_search
+                                
+                                // Expand all resources for the group resource and scroll to it
+				var resource = fragments[0].replace(/\s/g, '_');
+                                var group = resource.split('/')
+                                var dom_idg = 'group_resource_' + group[0];
+                                
+				Docs.expandResourceListForGroupResource(group[0]);
+				$("#"+dom_idg).slideto({highlight: false});
+                                
+                                // Expand Resource
+                                Docs.expandEndpointListForResource(fragments[0]);
+                                $("#"+dom_id).slideto({highlight: false});
 
-        // Expand Resource
-        Docs.expandEndpointListForResource(fragments[0]);
-        $("#"+dom_id).slideto({highlight: false});
-
-        // Expand operation
+                                // Expand operation
 				var li_dom_id = fragments.join('_');
 				var li_content_dom_id = li_dom_id + "_content";
-
-
+                                
+				Docs.expandOperation($('#'+li_content_dom_id));
+				$('#'+li_dom_id).slideto({highlight: false});
+				break;
+                        case 3:
+				// Refer to the endpoint DOM element with subresources, e.g. #words_get_search
+                                
+                                // Expand all resources for the group resource and scroll to it
+				var resource = fragments[0].replace(/\s/g, '_');
+                                var group = resource.split('/')
+                                var dom_idg = 'group_resource_' + group[0];
+                                
+				Docs.expandResourceListForGroupResource(group[0]);
+				$("#"+dom_idg).slideto({highlight: false});
+                                
+                                // Expand Resource
+                                //var dom_id = 'resource_' + fragments[0] + '\/' + fragments[1];
+                                Docs.expandEndpointListForResource(fragments[0] + '/' + fragments[1]);
+                                $("#"+dom_id).slideto({highlight: false});
+                                
+                                // Expand operation
+				var li_dom_id = Docs.escapeResourceName(fragments[0] + '/' + fragments[1]) + '_' + fragments[2];
+                                var li_content_dom_id = li_dom_id + "_content";
+                                
 				Docs.expandOperation($('#'+li_content_dom_id));
 				$('#'+li_dom_id).slideto({highlight: false});
 				break;
 		}
 
+	},
+        
+        toggleResourceListForGroupResource: function(group_resource) {
+		var elem = $('li#group_resource_' + Docs.escapeGroupResourceName(group_resource) + ' ul.resources');
+                if (elem.is(':visible')) {
+			Docs.collapseResourceListForGroupResource(group_resource);
+		} else {
+        		Docs.expandResourceListForGroupResource(group_resource);
+		}
+	},
+
+	// Expand Group resource
+	expandResourceListForGroupResource: function(group_resource) {
+		var group_resource = Docs.escapeGroupResourceName(group_resource);
+                if (group_resource == '') {
+			$('.group_resource ul.resources').slideDown();
+			return;
+		}
+		
+		$('li#group_resource_' + group_resource).addClass('group_active');
+
+		var elem = $('li#group_resource_' + group_resource + ' ul.resources');
+		elem.slideDown();
+	},
+
+	// Collapse Group resource and mark as explicitly closed
+	collapseResourceListForGroupResource: function(group_resource) {
+		var group_resource = Docs.escapeGroupResourceName(group_resource);
+		if (group_resource == '') {
+			$('.group_resource ul.resources').slideUp();
+			return;
+		}
+
+		$('li#group_resource_' + group_resource).removeClass('group_active');
+
+		var elem = $('li#group_resource_' + group_resource + ' ul.resources');
+		elem.slideUp();
+	},
+
+	expandResourcesForGroupResource: function(group_resource) {
+		// Make sure the Group resource container is open..
+		Docs.expandResourceListForGroupResource(group_resource);
+		
+		if (group_resource == '') {
+			$('.group_resource ul.resources li.resource div.content').slideDown();
+			return;
+		}
+
+		$('li#group_resource_' + Docs.escapeGroupResourceName(group_resource) + ' ul.resources div.content').each(function() {
+			Docs.expandEndpointListForResource($(this));
+		});
+	},
+
+	collapseResourcesForGroupResource: function(group_resource) {
+		// Make sure the resource container is open..
+		Docs.expandResourceListForGroupResource(group_resource);
+
+		if (group_resource == '') {
+			$('.group_resource ul.resources li.resource div.content').slideUp();
+			return;
+		}
+
+		$('li#group_resource_' + Docs.escapeGroupResourceName(group_resource) + ' ul.resources div.content').each(function() {
+			Docs.collapseEndpointListForResource($(this));
+		});
+	},
+
+	escapeGroupResourceName: function(group_resource) {
+		return group_resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
 	},
 
 	toggleEndpointListForResource: function(resource) {
@@ -127,7 +234,7 @@ var Docs = {
 	// Expand resource
 	expandEndpointListForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
-		if (resource == '') {
+                if (resource == '') {
 			$('.resource ul.endpoints').slideDown();
 			return;
 		}
@@ -181,7 +288,7 @@ var Docs = {
 	},
 
 	escapeResourceName: function(resource) {
-		return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
+            return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
 	},
 
 	expandOperation: function(elem) {

@@ -10,3 +10,6 @@ swagger-ui.sublime-workspace
 .idea
 .project
 node_modules/*
+/nbproject/private/
+/nbproject/project.properties
+/nbproject/project.xml

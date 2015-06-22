@@ -35,19 +35,21 @@ class MainView extends Backbone.View
 
     # Render the outer container for resources
     $(@el).html(Handlebars.templates.main(@model))
-
-    # Render each resource
-
-    resources = {}
-    counter = 0
-    for resource in @model.apisArray
-      id = resource.name
-      while typeof resources[id] isnt 'undefined'
-        id = id + "_" + counter
-        counter += 1
-      resource.id = id
-      resources[id] = resource
-      @addResource resource, @model.auths
+    
+    # Render each Group resource
+    group_resources = []
+    
+    arreglo_group_resources = @getGroupResource()
+    
+    counter_g = 0
+    for clave, group_resource of arreglo_group_resources
+      id = group_resource['name']
+      while typeof group_resources[id] isnt 'undefined'
+        id = id + "_" + counter_g
+        counter_g += 1
+      group_resource['id'] = id
+      group_resources[id] = group_resource
+      @addGroupResource group_resource, @model.auths
 
     $('.propWrap').hover(
       ->
@@ -56,19 +58,48 @@ class MainView extends Backbone.View
         $('.optionsWrapper', $(this)).hide()
     )
     @
-
-  addResource: (resource, auths) ->
-    # Render a resource and add it to resources li
-    resource.id = resource.id.replace(/\s/g, '_')
-    resourceView = new ResourceView({
-      model: resource, 
+    
+  addGroupResource: (group_resource, auths) ->
+    # Render a group resource and add it to groups resources li
+    group_resource['id'] = group_resource['id'].replace(/\s/g, '_')
+    groupResourceView = new GroupResourceView({
+      model: group_resource, 
       tagName: 'li', 
-      id: 'resource_' + resource.id, 
-      className: 'resource', 
+      id: 'group_resource_' + group_resource['id'], 
+      className: 'group_resource', 
       auths: auths,
       swaggerOptions: @options.swaggerOptions
     })
-    $('#resources').append resourceView.render().el
+    $('#group_resources').append groupResourceView.render().el
 
+  getGroupResource: ->
+    # arreglo que contiene los grupos de recursos
+    arreglo_group_resources = []
+    
+    # recorro los recursos
+    for resource in @model.apisArray
+      id = resource.name.replace(/\s/g, '_')
+      group_name = id.split('/')
+      
+      if typeof group_name[0] isnt 'undefined'
+        # busco si ya se encuentra en la lista de grupos
+        i = 0
+        enc = false
+        cant = arreglo_group_resources.length
+        while i < cant && !enc
+          if arreglo_group_resources[i]['name'] == group_name[0]
+            enc = true
+          else
+            i +=1
+        if !enc # si el recurso no esta en un grupo entonces creo el grupo y agrego el recurso
+          arreglo_group_resources[i] = []
+          arreglo_group_resources[i]['name'] = group_name[0]
+          arreglo_group_resources[i]['resources'] = []
+          arreglo_group_resources[i]['resources'][arreglo_group_resources[i]['resources'].length] = resource
+        else # agrego el recurso al grupo ya creado
+          arreglo_group_resources[i]['resources'][arreglo_group_resources[i]['resources'].length] = resource
+    
+    arreglo_group_resources
+    
   clear: ->
     $(@el).html ''
