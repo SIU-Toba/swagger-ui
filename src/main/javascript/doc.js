@@ -1,22 +1,25 @@
+'use strict';
+
+
 $(function() {
 
 	// Helper function for vertically aligning DOM elements
 	// http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
 	$.fn.vAlign = function() {
-		return this.each(function(i){
-		var ah = $(this).height();
-		var ph = $(this).parent().height();
-		var mh = (ph - ah) / 2;
-		$(this).css('margin-top', mh);
+		return this.each(function(){
+			var ah = $(this).height();
+			var ph = $(this).parent().height();
+			var mh = (ph - ah) / 2;
+			$(this).css('margin-top', mh);
 		});
 	};
 
 	$.fn.stretchFormtasticInputWidthToParent = function() {
-		return this.each(function(i){
-		var p_width = $(this).closest("form").innerWidth();
-		var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest("form").css('padding-right'), 10);
-		var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
-		$(this).css('width', p_width - p_padding - this_padding);
+		return this.each(function(){
+			var p_width = $(this).closest("form").innerWidth();
+			var p_padding = parseInt($(this).closest("form").css('padding-left') ,10) + parseInt($(this).closest('form').css('padding-right'), 10);
+			var this_padding = parseInt($(this).css('padding-left'), 10) + parseInt($(this).css('padding-right'), 10);
+			$(this).css('width', p_width - p_padding - this_padding);
 		});
 	};
 
@@ -38,7 +41,7 @@ $(function() {
 			$(this).removeClass('error');
 
 			// Tack the error style on if the input is empty..
-			if ($(this).val() == '') {
+			if ($(this).val() === '') {
 				$(this).addClass('error');
 				$(this).wiggle();
 				error_free = false;
@@ -51,7 +54,7 @@ $(function() {
 
 });
 
-function clippyCopiedCallback(a) {
+function clippyCopiedCallback() {
   $('#api_key_copied').fadeIn().delay(1000).fadeOut();
 
   // var b = $("#clippy_tooltip_" + a);
@@ -62,16 +65,16 @@ function clippyCopiedCallback(a) {
 }
 
 // Logging function that accounts for browsers that don't have window.console
-log = function(){
+function log(){
   log.history = log.history || [];
   log.history.push(arguments);
   if(this.console){
     console.log( Array.prototype.slice.call(arguments)[0] );
   }
-};
+}
 
 // Handle browsers that do console incorrectly (IE9 and below, see http://stackoverflow.com/a/5539378/7913)
-if (Function.prototype.bind && console && typeof console.log == "object") {
+if (Function.prototype.bind && console && typeof console.log === "object") {
     [
       "log","info","warn","error","assert","dir","clear","profile","profileEnd"
     ].forEach(function (method) {
@@ -79,7 +82,7 @@ if (Function.prototype.bind && console && typeof console.log == "object") {
     }, Function.prototype.call);
 }
 
-var Docs = {
+window.Docs = {
 
 	shebang: function() {
 
@@ -90,110 +93,75 @@ var Docs = {
 
 		switch (fragments.length) {
 			case 1:
-                                // Expand all resources for the group resource and scroll to it
-				var resource = fragments[0].replace(/\s/g, '_');
-                                var group = resource.split('/')
-                                var dom_idg = 'group_resource_' + group[0];
-                                
-				Docs.expandResourceListForGroupResource(group[0]);
-				$("#"+dom_idg).slideto({highlight: false});
-                                
-				// Expand all operations for the resource and scroll to it
-				var dom_id = 'resource_' + fragments[0];
+        if (fragments[0].length > 0) { // prevent matching "#/"
+          // Expand all operations for the resource and scroll to it
+          var dom_id = 'resource_' + fragments[0];
 
-				Docs.expandEndpointListForResource(fragments[0]);
-				$("#"+dom_id).slideto({highlight: false});
+          Docs.expandEndpointListForResource(fragments[0]);
+          $("#"+dom_id).slideto({highlight: false});
+        }
 				break;
 			case 2:
 				// Refer to the endpoint DOM element, e.g. #words_get_search
-                                
-                                // Expand all resources for the group resource and scroll to it
-				var resource = fragments[0].replace(/\s/g, '_');
-                                var group = resource.split('/')
-                                var dom_idg = 'group_resource_' + group[0];
-                                
-				Docs.expandResourceListForGroupResource(group[0]);
-				$("#"+dom_idg).slideto({highlight: false});
-                                
-                                // Expand Resource
-                                Docs.expandEndpointListForResource(fragments[0]);
-                                $("#"+dom_id).slideto({highlight: false});
 
-                                // Expand operation
-				var li_dom_id = fragments.join('_');
-				var li_content_dom_id = li_dom_id + "_content";
-                                
-				Docs.expandOperation($('#'+li_content_dom_id));
-				$('#'+li_dom_id).slideto({highlight: false});
-				break;
-                        case 3:
-				// Refer to the endpoint DOM element with subresources, e.g. #words_get_search
-                                
-                                // Expand all resources for the group resource and scroll to it
-				var resource = fragments[0].replace(/\s/g, '_');
-                                var group = resource.split('/')
-                                var dom_idg = 'group_resource_' + group[0];
-                                
-				Docs.expandResourceListForGroupResource(group[0]);
-				$("#"+dom_idg).slideto({highlight: false});
-                                
-                                // Expand Resource
-                                //var dom_id = 'resource_' + fragments[0] + '\/' + fragments[1];
-                                Docs.expandEndpointListForResource(fragments[0] + '/' + fragments[1]);
-                                $("#"+dom_id).slideto({highlight: false});
-                                
-                                // Expand operation
-				var li_dom_id = Docs.escapeResourceName(fragments[0] + '/' + fragments[1]) + '_' + fragments[2];
-                                var li_content_dom_id = li_dom_id + "_content";
-                                
-				Docs.expandOperation($('#'+li_content_dom_id));
-				$('#'+li_dom_id).slideto({highlight: false});
-				break;
+        // Expand Resource
+        Docs.expandEndpointListForResource(fragments[0]);
+        $("#"+dom_id).slideto({highlight: false});
+
+            // Expand operation
+            var li_dom_id = fragments.join('_');
+            var li_content_dom_id = li_dom_id + "_content";
+
+
+            Docs.expandOperation($('#'+li_content_dom_id));
+            $('#'+li_dom_id).slideto({highlight: false});
+            break;
 		}
-
 	},
-        
-        toggleResourceListForGroupResource: function(group_resource) {
-		var elem = $('li#group_resource_' + Docs.escapeGroupResourceName(group_resource) + ' ul.resources');
-                if (elem.is(':visible')) {
-			Docs.collapseResourceListForGroupResource(group_resource);
+
+	toggleResourceListForGroupResource: function(resource) {
+		var elem = $('li#group_resource_' + Docs.escapeResourceName(resource) + ' ul.resources');
+		if (elem.is(':visible')) {
+			//$.bbq.pushState('#/', 2);
+			Docs.collapseResourceListForGroupResource(resource);
 		} else {
-        		Docs.expandResourceListForGroupResource(group_resource);
+			//$.bbq.pushState('#/' + resource, 2);
+			Docs.expandResourceListForGroupResource(resource);
 		}
 	},
 
-	// Expand Group resource
-	expandResourceListForGroupResource: function(group_resource) {
-		var group_resource = Docs.escapeGroupResourceName(group_resource);
-                if (group_resource == '') {
+	// Expand resource
+	expandResourceListForGroupResource: function(resource) {
+		var resource = Docs.escapeResourceName(resource);
+		if (resource == '') {
 			$('.group_resource ul.resources').slideDown();
 			return;
 		}
-		
-		$('li#group_resource_' + group_resource).addClass('group_active');
 
-		var elem = $('li#group_resource_' + group_resource + ' ul.resources');
+		$('li#group_resource_' + resource).addClass('active');
+
+		var elem = $('li#group_resource_' + resource + ' ul.resources');
 		elem.slideDown();
 	},
 
-	// Collapse Group resource and mark as explicitly closed
-	collapseResourceListForGroupResource: function(group_resource) {
-		var group_resource = Docs.escapeGroupResourceName(group_resource);
-		if (group_resource == '') {
+	// Collapse resource and mark as explicitly closed
+	collapseResourceListForGroupResource: function(resource) {
+		var resource = Docs.escapeResourceName(resource);
+		if (resource == '') {
 			$('.group_resource ul.resources').slideUp();
 			return;
 		}
 
-		$('li#group_resource_' + group_resource).removeClass('group_active');
+		$('li#group_resource_' + resource).removeClass('active');
 
-		var elem = $('li#group_resource_' + group_resource + ' ul.resources');
+		var elem = $('li#group_resource_' + resource + ' ul.resources');
 		elem.slideUp();
 	},
 
 	expandResourcesForGroupResource: function(group_resource) {
 		// Make sure the Group resource container is open..
 		Docs.expandResourceListForGroupResource(group_resource);
-		
+
 		if (group_resource == '') {
 			$('.group_resource ul.resources li.resource div.content').slideDown();
 			return;
@@ -225,8 +193,10 @@ var Docs = {
 	toggleEndpointListForResource: function(resource) {
 		var elem = $('li#resource_' + Docs.escapeResourceName(resource) + ' ul.endpoints');
 		if (elem.is(':visible')) {
+			//$.bbq.pushState('#/', 2);
 			Docs.collapseEndpointListForResource(resource);
 		} else {
+			//$.bbq.pushState('#/' + resource, 2);
 			Docs.expandEndpointListForResource(resource);
 		}
 	},
@@ -234,11 +204,11 @@ var Docs = {
 	// Expand resource
 	expandEndpointListForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
-                if (resource == '') {
+		if (resource == '') {
 			$('.resource ul.endpoints').slideDown();
 			return;
 		}
-		
+
 		$('li#resource_' + resource).addClass('active');
 
 		var elem = $('li#resource_' + resource + ' ul.endpoints');
@@ -262,7 +232,7 @@ var Docs = {
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		
+
 		if (resource == '') {
 			$('.resource ul.endpoints li.operation div.content').slideDown();
 			return;
@@ -288,7 +258,7 @@ var Docs = {
 	},
 
 	escapeResourceName: function(resource) {
-            return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
+		return resource.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]\^`{|}~]/g, "\\$&");
 	},
 
 	expandOperation: function(elem) {

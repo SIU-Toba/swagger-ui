@@ -1,3 +1,5 @@
+
+
 @import 'src/main/less/highlight_default.less';
 @import 'src/main/less/specs.less';
 @import 'src/main/less/auth.less';
@@ -5,20 +7,25 @@
 .shadowBox (@size: 1px, @strength: 0.15) {
   -webkit-box-shadow: 0 @size @size rgba(0, 0, 0, @strength);
   box-shadow: 0 @size @size rgba(0, 0, 0, @strength);
-}
-
+ }
+ 
 .swagger-section {
 
-  .access {
-    float: right;
+  .access { float: right; }
+
+  .auth { float: right; }
+
+  .api-ic {
+    height: 18px;
+    vertical-align: middle;
+    display: inline-block;
+    background: url(../images/explorer_icons.png) no-repeat;
   }
 
-  .auth {
-    float: right;
-  }
-
-  #api_information_panel {
-    position: absolute;
+  .api-ic .api_information_panel {
+    position: relative;
+    margin-top: 20px;
+    margin-left: -5px;
     background: #FFF;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -28,47 +35,44 @@
     line-height: 30px;
     color: black;
     padding: 5px;
-    p {
-      .api-msg-enabled {
-        color: green;
-      }
-      .api-msg-disabled {
-        color: red;
-      }
-    }
   }
 
-  .api-ic {
-    height: 18px;
-    vertical-align: middle;
-    display: inline-block;
-    background: url(../images/explorer_icons.png) no-repeat;
+  .api-ic .api_information_panel p .api-msg-enabled { color: green; }
+  .api-ic .api_information_panel p .api-msg-disabled { color: red; }
+
+  .api-ic:hover .api_information_panel {
+    position: absolute;
+    display: block;
   }
 
   .ic-info {
     background-position: 0 0;
     width: 18px;
-    margin-top: -7px;
+    margin-top: -6px;
     margin-left: 4px;
   }
+
   .ic-warning {
     background-position: -60px 0;
     width: 18px;
-    margin-top: -7px;
+    margin-top: -6px;
     margin-left: 4px;
   }
+
   .ic-error {
     background-position: -30px 0;
     width: 18px;
-    margin-top: -7px;
+    margin-top: -6px;
     margin-left: 4px;
   }
+
   .ic-off {
     background-position: -90px 0;
     width: 58px;
     margin-top: -4px;
     cursor: pointer;
   }
+
   .ic-on {
     background-position: -160px 0;
     width: 58px;
@@ -78,52 +82,71 @@
 
   #header {
     background-color: #4285f4;
-    padding: 5px;
+    padding: 5px;    
+    min-width: 775px;
+    height: 45px;
+    border-bottom: dotted #686868 1px;
+    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15); 
+  }
 
-    .shadowBox(3px);
+  #input_baseUrl { width: 400px; }
 
-    #logo img {
+  #api_selector {
+    display: block;
+    clear: none;
+    float: right;
+  }
+
+  #api_selector .input {
+    display: inline-block;
+    clear: none;
+    margin: 0 10px 0 0;
+  }
+
+  #api_selector input {
+    font-size: 0.9em;
+    padding: 3px;
+    margin: 0;
+  }
+
+  #input_apiKey { width: 200px; }
+
+  #explore, #auth_container .authorize__btn {
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 6px 8px;
+    font-size: 0.9em;
+    color: white;
+    background-color: #20334D;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -o-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+
+    &:hover { background-color: #547f00; }
+  }
+
+  #header #logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+
+    .logo__img {
+      display: block;
+      float: left;
+      margin-top: 2px;
       height: 40px;
       padding: 5px;
     }
-    form#api_selector {
-      display: block;
-      clear: none;
-      float: right;
-      margin-top: 12px;
-      .input {
-        display: block;
-        clear: none;
-        float: left;
-        margin: 0 10px 0 0;
-        input#input_apiKey {
-          width: 200px;
-        }
-        input#input_baseUrl {
-          width: 400px;
-        }
-        a#explore {
-          display: block;
-          text-decoration: none;
-          font-weight: bold;
-          padding: 6px 8px;
-          font-size: 0.9em;
-          color: white;
-          background-color: #20334D;
-          -moz-border-radius: 4px;
-          -webkit-border-radius: 4px;
-          -o-border-radius: 4px;
 
-        }
-        a#explore:hover {
-          background-color: #295299;
-        }
-        input {
-          font-size: 0.9em;
-          padding: 3px;
-          margin: 0;
-        }
-      }
+    .logo__title {
+      display: inline-block;
+      padding: 5px 0 0 10px;
     }
   }
 
@@ -138,6 +161,28 @@
     text-align: center;
     padding-top: 10px;
   }
+  
+  .swagger-collapse:before {
+    content: "-";
+  }
 
+  .swagger-expand:before {
+    content: "+";
+  }
+
+  .error {
+    outline-color: #cc0000;
+    background-color: #f2dede;
+  }
+  
+  .panel-heading {
+    background-color: #18396F;
+    border-color: #2C4369;
+    border-radius: 2px;
+    padding: 10px;
+	
+	h2  {
+		color: white;
+	}
+ }
 }
-

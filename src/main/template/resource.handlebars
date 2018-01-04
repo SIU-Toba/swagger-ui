@@ -1,15 +1,10 @@
-<div class='panel panel-default'>
+<div class='panel-default'>
+<div class='panel heading pointer-cursor toggleEndpointList' data-id="{{id}}">
+  <h2>
+    <a href='#!/{{{sanitize id}}}'  data-id="{{{sanitize id}}}">{{{sanitize name}}}</a> {{#summary}} : {{/summary}}{{{sanitize summary}}}
+  </h2>
+</div>
 
-    <div class='panel-heading heading pointer-cursor toggleEndpointList' href='#!/{{id}}' data-id="{{id}}">
-        <h2>
-            {{name}} {{#summary}}: {{/summary}}{{{summary}}}
-        </h2>
-    </div>
-
-
-    <div class='panel-body'>
-        <ul class='endpoints' id='{{id}}_endpoint_list' style='display:none'>
-
-        </ul>
-    </div>
+<ul class='panel-body endpoints' id='{{{sanitize id}}}_endpoint_list' style='display:none'>
+</ul>
 </div>
